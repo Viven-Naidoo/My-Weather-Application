@@ -16,8 +16,6 @@ function refreshWeather(response) {
   windSpeedElement.innerHTML = `${response.data.wind.speed}km/h`;
   temperatureElement.innerHTML = Math.round(temperature);
   iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
-
-  getForecast(response.data.city);
 }
 
 function formatDate(date) {
@@ -51,39 +49,31 @@ function handleSearch(event) {
   searchCity(searchInput.value);
 }
 
-function getForecast(city) {
-  let apiKey = "95t503a47d4232o4806ad4bb3df835e4";
-  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
-  axios(apiUrl).then(displayForecast);
-}
-
-function displayForecast(response) {
-  console.log(response.data);
-  let days = ["Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+function displayForecast() {
+  let days = ["Tue", "Wed", "Thu", "Fri", "Sat"];
   let forecastHTML = "";
 
   days.forEach(function (day) {
     forecastHTML =
       forecastHTML +
       `
-       <div class="weather-forecast-day">
-            <div class="weather-forecast-date">${day}</div>
-            <div class="weather-forecast-icon">🌤️</div>
-            <div class="weather-forecast-temperatures">
-              <div class="weather-forecast-temperature">
-                <strong>15º</strong>
-              </div>
-              <div class="weather-forecast-temperature">9º</div>
-            </div>
+      <div class="weather-forecast-day">
+        <div class="weather-forecast-date">${day}</div>
+        <div class="weather-forecast-icon">🌤️</div>
+        <div class="weather-forecast-temperatures">
+          <div class="weather-forecast-temperature">
+            <strong>15º</strong>
           </div>
-`;
+          <div class="weather-forecast-temperature">9º</div>
+        </div>
+      </div>
+    `;
   });
-
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = forecastHTML;
 }
-
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearch);
 
 searchCity("Johannesburg");
+displayForecast();
